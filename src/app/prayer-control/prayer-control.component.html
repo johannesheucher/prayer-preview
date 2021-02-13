@@ -1,7 +1,17 @@
 <div *ngFor="let prayer of prayers"
     class="prayer-row" [class.active]="prayer.active"
 >
-    <span contenteditable="true" (click)="startEditing()" (blur)="submit($event, prayer)">{{prayer?.content}}</span>
+    <span class="content" contenteditable="true" (click)="startEditing()" (blur)="changeContent(prayer, $event.target)">{{prayer?.content}}</span>
+    <div class="row">
+        <select class="category" (change)="changeCategory(prayer, $event.target)">
+            <option *ngFor="let category of categories" [value]="category" [selected]="category === prayer.category">{{category}}</option>
+        </select>
+        <input class="thanks" type="checkbox" [checked]="prayer.thanks" (change)="changeThank(prayer, $event.target)" />
+    </div>
+    <button class="delete" (click)="delete(prayer)">Löschen</button>
 </div>
-<button class="category" (click)="next()">Nächstes</button>
-<button class="category" (click)="activate(undefined)">Kategorien anzeigen</button>
+<div class="prayer-row new">
+    <span #new contenteditable="true" (click)="startEditing()" (blur)="changeContent(createPrayer(), $event.target)"></span>
+</div>
+<button class="button" (click)="next()">Nächstes</button>
+<button class="button" (click)="activate(undefined)">Kategorien anzeigen</button>

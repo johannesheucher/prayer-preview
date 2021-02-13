@@ -5,6 +5,9 @@
     padding: 8px;
 
     .prayer-row {
+        display: flex;
+        flex-direction: column;
+
         margin: 4px 0;
         padding: 8px;
         border-radius: 8px;
@@ -19,9 +22,31 @@
         &.active {
             background-color: #949;
         }
+
+        .row {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .thanks {
+            &::after {
+                content: 'Dank';
+                margin-left: 20px;
+            }
+        }
+
+        .delete {
+            margin-right: auto;
+        }
+
+        &.new {
+            span:empty::after {
+                content: 'Neues Gebet hinzufügen...'
+            }
+        }
     }
     
-    .category {
+    .button {
         margin-top: 12px;
         border: none;
         padding: 12px;

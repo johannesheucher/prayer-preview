@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { filter, finalize, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -12,6 +12,34 @@ export interface Prayer {
 }
 export const EMPTY_PRAYER: Prayer = { content: '', category: '', thanks: false, active: false };
 
+export const Categories = [
+    'Versorgung',
+    'Heilung',
+    'Gesundheit',
+    'Erweckung',
+    'Kirche',
+    'Stadt & Land',
+    'Familie & Freunde',
+    'Weisheit',
+    'Freisetzung',
+    'Schule & Ausbildung',
+    'Trost',
+    'Job'
+    /*
+    &[category="Versorgung"]            { background: #E57373; }
+    &[category="Heilung"]               { background: #F06292; }
+    &[category="Gesundheit"]            { background: #BA68C8; }
+    &[category="Erweckung"]             { background: #9575CD; }
+    &[category="Kirche"]                { background: #7986CB; }
+    &[category="Stadt & Land"]          { background: #4DD0E1; }
+    &[category="Familie & Freunde"]     { background: #81C784; }
+    &[category="Weisheit"]              { background: #DCE775; }
+    &[category="Freisetzung"]           { background: #FFF176; }
+    &[category="Schule & Ausbildung"]   { background: #FFB74D; }
+    &[category="Trost"]                 { background: #FF8A65; }
+    &[category="Job"]                   { background: #90A4Ae; }
+    */
+];
 
 /**
  * Regularly requests prayers from the backend and stores current ones
@@ -19,7 +47,8 @@ export const EMPTY_PRAYER: Prayer = { content: '', category: '', thanks: false, 
 @Injectable()
 export class PrayerIOService {
 
-    private prayersSubject = new BehaviorSubject<Prayer[]>([]);
+    private _prayers: Prayer[] = [];
+    private prayersSubject = new Subject<Prayer[]>();
     private pending = new BehaviorSubject<boolean>(false);
     private activePrayer = new BehaviorSubject<Prayer | undefined>(undefined);
     private categoriesSubject = new BehaviorSubject<Set<string>>(new Set());
@@ -32,10 +61,11 @@ export class PrayerIOService {
                 this.readPrayers().pipe(
                     finalize(() => this.pending.next(false))
                 ).subscribe(prayers => {
+                    this._prayers = prayers ?? [];
                     // TODO performance: check differences and only update if such
-                    this.prayersSubject.next(prayers);
-                    this.activePrayer.next(prayers.find(prayer => prayer.active));
-                    this.categoriesSubject.next(new Set(prayers.map(prayer => prayer.category)));
+                    this.prayersSubject.next(this.prayers);
+                    this.activePrayer.next(this.prayers.find(prayer => prayer.active));
+                    this.categoriesSubject.next(new Set(this.prayers.map(prayer => prayer.category)));
                 });
             }
         }, 2000);
@@ -66,7 +96,7 @@ export class PrayerIOService {
 
 
     get prayers(): Prayer[] {
-        return this.prayersSubject.value;
+        return this._prayers;
     }
 
 

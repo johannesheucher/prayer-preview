@@ -32,11 +32,15 @@ export class PrayerViewComponent implements OnDestroy {
     }
 
 
-    // @HostListener('document:keydown', ['$event'])
-    // switchToControl(event: KeyboardEvent): void {
-    //     if (event.key === 'c') {
-    //         console.log('switching to /control');
-    //         this.router.navigateByUrl('control');
-    //     }
-    // }
+    @HostListener('document:keydown', ['$event'])
+    keydown(event: KeyboardEvent): void {
+        if (event.key === 'c' && event.ctrlKey) {
+            console.log('switching to /control');
+            this.switchToControl();
+        }
+    }
+
+    switchToControl(): void {
+        this.router.navigateByUrl('control');
+    }
 }
