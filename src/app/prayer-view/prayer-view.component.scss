@@ -1,0 +1,64 @@
+:host {
+    .prayer-card {
+        display: flex;
+        flex-direction: column;
+        width: 870px;
+        height: 507px;
+
+        background: linear-gradient(253.35deg, #1F1E2D 3.3%, #05040F 84.13%);
+
+        position: relative;
+
+        padding: 0 36px;
+
+        header {
+            display: flex;
+
+            .title {
+                margin-top: 35px;
+                text-transform: uppercase;
+
+                font-family: Poppins;
+                font-style: normal;
+                font-weight: bold;
+                font-size: 49px;
+                line-height: 73px;
+
+                letter-spacing: 0.19em;
+
+                color: #E5E5E5;
+            }
+
+            app-category {
+                position: absolute;
+                top: 0;
+                right: 160px;
+            }
+        }
+
+        .kind {
+            display: flex;
+            margin: 20px 0;
+            color: #E5E5E5;
+        }
+
+        .content {
+            margin: 24px 0 58px 0;
+
+            font-family: Poppins;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 25px;
+            line-height: 183.3%;
+
+            color: #E5E5E5;
+        }
+
+        // box-shadow: #00000075 0 0 20px 10px;
+
+        // background-image: url('/assets/fuerbitte.png');
+        // &.thanks {
+        //     background-image: url('/assets/dank.png');
+        // }
+    }
+}

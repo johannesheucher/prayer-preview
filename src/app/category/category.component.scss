@@ -1,0 +1,57 @@
+:host {
+    display: flex;
+
+    margin: 16px 16px 0 0;
+
+    width: 168px;
+    height: 58px;
+    padding: 2px 4px;
+    border-radius: 6px;
+    box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.5);
+
+    &.badge {
+        margin: 0;
+
+        width: 128px;
+        height: 48px;
+
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+
+        label {
+            font-size: 16px;
+            line-height: 100%;
+        }
+    }
+
+    &[category="Versorgung"]            { background: #E57373; }
+    &[category="Heilung"]               { background: #F06292; }
+    &[category="Gesundheit"]            { background: #BA68C8; }
+    &[category="Erweckung"]             { background: #9575CD; }
+    &[category="Kirche"]                { background: #7986CB; }
+    &[category="Stadt & Land"]          { background: #4DD0E1; }
+    &[category="Familie & Freunde"]     { background: #81C784; }
+    &[category="Weisheit"]              { background: #DCE775; }
+    &[category="Freisetzung"]           { background: #FFF176; }
+    &[category="Schule & Ausbildung"]   { background: #FFB74D; }
+    &[category="Trost"]                 { background: #FF8A65; }
+    &[category="Job"]                   { background: #90A4Ae; }
+
+    label {
+        font-family: Poppins;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 19px;
+        line-height: 19px;
+        letter-spacing: 0.03em;
+
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+        align-self: center;
+        text-align: center;
+
+        color: #000000;
+    }
+}

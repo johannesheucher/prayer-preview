@@ -1,0 +1,7 @@
+<div *ngFor="let prayer of prayers"
+    class="prayer-row" [class.active]="prayer.active"
+>
+    <span contenteditable="true" (click)="startEditing()" (blur)="submit($event, prayer)">{{prayer?.content}}</span>
+</div>
+<button class="category" (click)="next()">Nächstes</button>
+<button class="category" (click)="activate(undefined)">Kategorien anzeigen</button>

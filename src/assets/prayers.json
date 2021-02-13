@@ -1,0 +1,9 @@
+[
+    { "content": "Gott versorgt uns rundum!", "category": "Versorgung", "thanks": true, "active": true },
+    { "content": "Für Stärke und Weisheit in den Entscheidungen der Politiker", "category": "Stadt & Land", "thanks": false, "active": false },
+    { "content": "Für Wachstum dieser Kirche!", "category": "Kirche", "thanks": false, "active": false },
+    { "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit,sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris aliquip commodo consequat.", "category": "Schule & Ausbildung", "thanks": false, "active": false },
+    { "content": "Kraft für die Pastoren dieser Kirche!", "category": "Kirche", "thanks": false, "active": false },
+    { "content": "Errettung meiner Familie!", "category": "Familie & Freunde", "thanks": false, "active": false },
+    { "content": "Weisheit für eine anstehende Entscheidung", "category": "Weisheit", "thanks": false, "active": false }
+]

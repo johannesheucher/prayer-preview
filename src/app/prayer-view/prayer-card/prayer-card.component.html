@@ -1,0 +1,14 @@
+<div class="prayer-card">
+    <header>
+        <label class="title">Gebetskarte</label>
+        <app-category [category]="prayer.category" class="badge"></app-category>
+        <i class="logo"></i>
+    </header>
+    <section class="kind">
+        <div class="box" [class.selected]="prayer.thanks"></div>
+        <label>Dank</label>
+        <div class="box" [class.selected]="!prayer.thanks"></div>
+        <label>Fürbitte</label>
+    </section>
+    <section class="content">{{prayer.content}}</section>
+</div>
