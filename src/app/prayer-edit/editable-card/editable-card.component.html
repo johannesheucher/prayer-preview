@@ -1,0 +1,7 @@
+<span class="content" contenteditable="true" (click)="startEditing()" (blur)="changeContent(prayer, $event.target)">{{prayer?.content}}</span>
+<div class="row">
+    <select class="category" (change)="changeCategory(prayer, $event.target)">
+        <option *ngFor="let category of categories" [value]="category" [selected]="category === prayer.category">{{category}}</option>
+    </select>
+    <input class="thanks" type="checkbox" [checked]="prayer.thanks" (change)="changeThank(prayer, $event.target)" />
+</div>

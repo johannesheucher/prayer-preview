@@ -1,0 +1,32 @@
+// @import 'const';
+
+:host {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+
+    header {
+        display: flex;
+        flex: 0 0 auto;
+        padding-bottom: 8px;
+
+        .kind {
+            color: #efefef;
+            text-transform: uppercase;
+            padding: 16px;
+        }
+
+        app-category {
+            margin-left: auto;
+        }
+    }
+
+    section {
+        flex: 1 1 auto;
+        margin-top: 8px;
+        background-color: #efefef;
+        padding: 16px;
+
+        font-size: 22px;
+    }
+}

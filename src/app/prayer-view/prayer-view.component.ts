@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, HostListener, OnDestroy } from '@angular/core';
+import { Component, HostListener, OnDestroy } from '@angular/core';
 import { PrayerIOService, Prayer } from '../utils/prayer-io.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -21,9 +21,7 @@ export class PrayerViewComponent implements OnDestroy {
 
 
     ngOnDestroy(): void {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-        }
+        this.subscription?.unsubscribe();
     }
 
 

@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject, Subscription } from 'rxjs';
 import { filter, finalize, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -47,6 +47,9 @@ export const Categories = [
 @Injectable()
 export class PrayerIOService {
 
+    private static readonly INTERVAL = 500;
+
+    // tslint:disable-next-line:variable-name
     private _prayers: Prayer[] = [];
     private prayersSubject = new Subject<Prayer[]>();
     private pending = new BehaviorSubject<boolean>(false);
@@ -58,17 +61,11 @@ export class PrayerIOService {
         setInterval(() => {
             if (!this.isPending()) {
                 this.pending.next(true);
-                this.readPrayers().pipe(
+                this.request().pipe(
                     finalize(() => this.pending.next(false))
-                ).subscribe(prayers => {
-                    this._prayers = prayers ?? [];
-                    // TODO performance: check differences and only update if such
-                    this.prayersSubject.next(this.prayers);
-                    this.activePrayer.next(this.prayers.find(prayer => prayer.active));
-                    this.categoriesSubject.next(new Set(this.prayers.map(prayer => prayer.category)));
-                });
+                ).subscribe(prayers => this.readPrayers(prayers));
             }
-        }, 2000);
+        }, PrayerIOService.INTERVAL);
     }
 
 
@@ -77,10 +74,25 @@ export class PrayerIOService {
     }
 
 
-    private readPrayers(): Observable<Prayer[]> {
+    private request(): Observable<Prayer[]> {
+        // DEBUG for tests with WebServer without PUT
+        // if (this.prayers.length > 0) {
+        //     return of(this.prayers);
+        // }
+        // END DEBUG
+
         return this.http.get('assets/prayers.json').pipe(map(
             data => data as Prayer[]
         ));
+    }
+
+
+    readPrayers(prayers: Prayer[]): void {
+        this._prayers = prayers ?? [];
+        // TODO performance: check differences and only update if such
+        this.prayersSubject.next(this.prayers);
+        this.activePrayer.next(this.prayers.find(prayer => prayer.active));
+        this.categoriesSubject.next(new Set(this.prayers.map(prayer => prayer.category)));
     }
 
 
@@ -91,7 +103,40 @@ export class PrayerIOService {
         //     finalize(() => s.unsubscribe())
         // ).subscribe(() => {
             this.http.put('assets/prayers.json', JSON.stringify(prayers)).subscribe();
+            this.readPrayers(this.prayers);
         // });
+    }
+
+
+    next(): void {
+        const index = this.prayers.findIndex(p => p.active);
+        this.activate(this.prayers[index + 1]);
+    }
+
+
+    previous(): void {
+        let index = this.prayers.findIndex(p => p.active);
+
+        // if categories are active, select last prayer next
+        if (index === -1) {
+            index = this.prayers.length;
+        }
+
+        this.activate(this.prayers[index - 1]);
+    }
+
+
+    private activate(prayer: Prayer | undefined): void {
+        // deactivate previous prayer
+        const index = this.prayers.findIndex(p => p.active);
+        if (index >= 0) {
+            this.prayers[index].active = false;
+        }
+
+        if (prayer) {
+            prayer.active = true;
+        }
+        this.writePrayers(this.prayers);
     }
 
 

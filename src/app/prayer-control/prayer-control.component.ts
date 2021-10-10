@@ -1,7 +1,8 @@
-import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { filter, first } from 'rxjs/operators';
-import { PrayerIOService, Prayer, EMPTY_PRAYER, Categories } from '../utils/prayer-io.service';
+import { Subscription } from 'rxjs';
+import { first } from 'rxjs/operators';
+import { PrayerIOService, Prayer } from '../utils/prayer-io.service';
 
 
 @Component({
@@ -9,103 +10,20 @@ import { PrayerIOService, Prayer, EMPTY_PRAYER, Categories } from '../utils/pray
     templateUrl: './prayer-control.component.html',
     styleUrls: ['./prayer-control.component.scss']
 })
-export class PrayerControlComponent implements AfterViewInit {
-    categories = Categories;
-    prayers: Prayer[] = [];
-    private editing = false;
-
-    @ViewChild('new', { static: false }) newRow: ElementRef | null = null;
+export class PrayerControlComponent implements OnDestroy {
+    prayer: Prayer | undefined = undefined;
+    private subscription: Subscription;
 
 
-    constructor(private readonly prayerIO: PrayerIOService, private readonly router: Router) {}
-
-
-    ngAfterViewInit(): void {
-        this.updatePrayers();
-    }
-
-
-    private updatePrayers(): void {
-        this.prayerIO.prayers$.pipe(first()).subscribe({
-            next: prayers => {
-                this.prayers = prayers;
-            }
+    constructor(public readonly prayerIO: PrayerIOService) {
+        this.subscription = this.prayerIO.activePrayer$.subscribe({
+            next: prayer => this.prayer = prayer
         });
     }
 
 
-    startEditing(): void {
-        this.editing = true;
-    }
-
-
-    changeContent(prayer: Prayer, target: EventTarget | null): void {
-        if ((target instanceof HTMLElement)) {
-            prayer.content = target.innerText;
-            this.submit();
-            if (this.newRow?.nativeElement.innerText) {
-                this.newRow.nativeElement.innerText = '';
-            }
-        }
-    }
-
-
-    changeCategory(prayer: Prayer, target: EventTarget | null): void {
-        if (target && target instanceof HTMLSelectElement) {
-            prayer.category = target.value;
-            this.submit();
-        }
-    }
-
-
-    changeThank(prayer: Prayer, target: EventTarget | null): void {
-        if (target && target instanceof HTMLInputElement) {
-            prayer.thanks = target.checked;
-            this.submit();
-        }
-    }
-
-
-    delete(prayer: Prayer): void {
-        const index = this.prayers.findIndex(p => p === prayer);
-        if (index >= 0) {
-            this.prayers.splice(index, 1);
-            this.submit();
-        }
-    }
-
-
-    submit(): void {
-        this.prayerIO.writePrayers(this.prayers);
-        this.editing = false;
-        this.updatePrayers();
-    }
-
-
-    createPrayer(): Prayer {
-        const prayer = EMPTY_PRAYER;
-        this.prayers.push(prayer);
-        return prayer;
-    }
-
-
-    next(): void {
-        const index = this.prayers.findIndex(p => p.active);
-        this.activate(this.prayers[index + 1]);
-    }
-
-
-    activate(prayer: Prayer | undefined): void {
-        // deactivate previous prayer
-        const index = this.prayers.findIndex(p => p.active);
-        if (index >= 0) {
-            this.prayers[index].active = false;
-        }
-
-        if (prayer) {
-            prayer.active = true;
-        }
-        this.submit();
+    ngOnDestroy(): void {
+        this.subscription?.unsubscribe();
     }
 
 
