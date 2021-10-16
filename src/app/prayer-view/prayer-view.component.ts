@@ -1,7 +1,8 @@
-import { Component, HostListener, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { PrayerIOService, Prayer } from '../utils/prayer-io.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -27,5 +28,10 @@ export class PrayerViewComponent implements OnDestroy {
 
     get categories(): Set<string> {
         return this.prayerIO.categories;
+    }
+
+
+    get prod(): boolean {
+        return environment.production;
     }
 }

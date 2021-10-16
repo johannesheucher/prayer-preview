@@ -27,6 +27,12 @@ export class PrayerControlComponent implements OnDestroy {
     }
 
 
+    suppressDblClick(event: Event): void {
+        console.log('dblclick on button');
+        event.preventDefault();
+    }
+
+
     // @HostListener('click')
     // rotate(): void {
     //     let index = this.prayers.findIndex(prayer => prayer.active);
