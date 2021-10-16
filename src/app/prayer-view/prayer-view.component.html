@@ -1,3 +1,4 @@
 <app-prayer-card *ngIf="prayer" [prayer]="prayer"></app-prayer-card>
 <app-category-card *ngIf="!prayer" [categories]="categories"></app-category-card>
-<!-- <button (click)="switchToControl()">control</button> -->
+<button (click)="router.navigateByUrl('control')">control</button>
+<button (click)="router.navigateByUrl('edit')">edit</button>

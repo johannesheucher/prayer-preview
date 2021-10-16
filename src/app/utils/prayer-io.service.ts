@@ -2,6 +2,7 @@ import { BehaviorSubject, Observable, of, Subject, Subscription } from 'rxjs';
 import { filter, finalize, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 
 export interface Prayer {
@@ -75,11 +76,11 @@ export class PrayerIOService {
 
 
     private request(): Observable<Prayer[]> {
-        // DEBUG for tests with WebServer without PUT
-        // if (this.prayers.length > 0) {
-        //     return of(this.prayers);
-        // }
-        // END DEBUG
+        // MOCK: For tests with WebServer without PUT (enabled for non-production)
+        if (!environment.production && this.prayers.length > 0) {
+            return of(this.prayers);
+        }
+        // END MOCK
 
         return this.http.get('assets/prayers.json').pipe(map(
             data => data as Prayer[]

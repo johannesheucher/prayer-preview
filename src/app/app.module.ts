@@ -11,6 +11,8 @@ import { CategoryComponent } from './category/category.component';
 import { PrayerCardComponent } from './prayer-view/prayer-card/prayer-card.component';
 import { CategoryCardComponent } from './prayer-view/category-card/category-card.component';
 import { SwipeCardComponent } from './prayer-control/swipe-card/swipe-card.component';
+import { PrayerEditComponent } from './prayer-edit/prayer-edit.component';
+import { EditableCardComponent } from './prayer-edit/editable-card/editable-card.component';
 
 @NgModule({
     declarations: [
@@ -20,7 +22,9 @@ import { SwipeCardComponent } from './prayer-control/swipe-card/swipe-card.compo
         PrayerCardComponent,
         PrayerViewComponent,
         PrayerControlComponent,
-        SwipeCardComponent
+        PrayerEditComponent,
+        SwipeCardComponent,
+        EditableCardComponent
     ],
     imports: [
         AppRoutingModule,

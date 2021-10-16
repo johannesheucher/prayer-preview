@@ -1,15 +1,15 @@
 import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { filter, first } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { PrayerIOService, Prayer, EMPTY_PRAYER, Categories } from '../utils/prayer-io.service';
 
 
 @Component({
-    selector: 'app-prayer-control',
-    templateUrl: './prayer-control.component.html',
-    styleUrls: ['./prayer-control.component.scss']
+    selector: 'app-prayer-edit',
+    templateUrl: './prayer-edit.component.html',
+    styleUrls: ['./prayer-edit.component.scss']
 })
-export class PrayerControlComponent implements AfterViewInit {
+export class PrayerEditComponent implements AfterViewInit {
     categories = Categories;
     prayers: Prayer[] = [];
     private editing = false;

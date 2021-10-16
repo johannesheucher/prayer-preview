@@ -13,7 +13,7 @@ export class PrayerViewComponent implements OnDestroy {
     private subscription: Subscription;
 
 
-    constructor(private readonly prayerIO: PrayerIOService, private readonly router: Router) {
+    constructor(private readonly prayerIO: PrayerIOService, public readonly router: Router) {
         this.subscription = this.prayerIO.activePrayer$.subscribe({
             next: prayer => this.prayer = prayer
         });
@@ -27,18 +27,5 @@ export class PrayerViewComponent implements OnDestroy {
 
     get categories(): Set<string> {
         return this.prayerIO.categories;
-    }
-
-
-    @HostListener('document:keydown', ['$event'])
-    keydown(event: KeyboardEvent): void {
-        if (event.key === 'c' && event.ctrlKey) {
-            console.log('switching to /control');
-            this.switchToControl();
-        }
-    }
-
-    switchToControl(): void {
-        this.router.navigateByUrl('control');
     }
 }

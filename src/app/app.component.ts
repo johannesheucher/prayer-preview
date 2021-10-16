@@ -1,5 +1,5 @@
-import { Component, AfterViewInit } from '@angular/core';
-import { PrayerIOService, Prayer } from './utils/prayer-io.service';
+import { Component, HostListener } from '@angular/core';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -8,31 +8,23 @@ import { PrayerIOService, Prayer } from './utils/prayer-io.service';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-    // private prayers: Prayer[] = [];
-    // prayer: Prayer | undefined = undefined;
+
+    constructor(private readonly router: Router) {
+    }
 
 
-    // constructor(private readonly prayerIO: PrayerIOService) {}
 
-
-    // ngAfterViewInit(): void {
-    //     // start loop to check prayers file
-    //     setInterval(() => {
-    //         // TODO try-catch for the case that reading is done while writing
-
-    //         console.log('reading prayers file');
-    //         this.prayerIO.readPrayers().subscribe({
-    //             next: prayers => {
-    //                 // this.prayers = prayers;
-    //                 this.prayer = prayers.find(prayer => prayer.active);
-    //             }
-    //         });
-    //     }, 2000);
-    // }
-
-
-    // @HostListener('click')
-    // rotate(): void {
-    //     this.prayerIndex = this.prayerIndex + 1 < this.prayers.length ? this.prayerIndex + 1 : 0;
-    // }
+    @HostListener('document:keydown', ['$event'])
+    keydown(event: KeyboardEvent): void {
+        if (event.key === '1' && event.ctrlKey) {
+            console.log('switching to /view');
+            this.router.navigateByUrl('view');
+        } else if (event.key === '2' && event.ctrlKey) {
+            console.log('switching to /control');
+            this.router.navigateByUrl('control');
+        } else if (event.key === '3' && event.ctrlKey) {
+            console.log('switching to /edit');
+            this.router.navigateByUrl('edit');
+        }
+    }
 }
