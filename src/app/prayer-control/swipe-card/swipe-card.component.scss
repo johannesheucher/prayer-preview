@@ -13,6 +13,7 @@
         .kind {
             color: #efefef;
             text-transform: uppercase;
+            letter-spacing: 4px;
             padding: 16px;
         }
 
@@ -24,9 +25,11 @@
     section {
         flex: 1 1 auto;
         margin-top: 8px;
-        background-color: #efefef;
-        padding: 16px;
+        padding: 32px;
 
-        font-size: 22px;
+        color: #555;
+        background-color: #efefef;
+
+        font-size: 28px;
     }
 }
